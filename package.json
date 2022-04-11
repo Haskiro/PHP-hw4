@@ -1,0 +1,25 @@
+{
+  "name": "php-hw4",
+  "version": "1.0.0",
+  "description": "php calculator",
+  "main": "index.html",
+  "scripts": {
+    "install": "npm install lite-server --save-dev",
+    "start": "npm run lite",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lite": "lite-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Haskiro/PHP-hw4.git"
+  },
+  "author": "Pavel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Haskiro/PHP-hw4/issues"
+  },
+  "homepage": "https://github.com/Haskiro/PHP-hw4#readme",
+  "devDependencies": {
+    "lite-server": "^2.6.1"
+  }
+}
