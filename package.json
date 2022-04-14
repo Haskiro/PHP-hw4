@@ -2,7 +2,7 @@
   "name": "php-hw4",
   "version": "1.0.0",
   "description": "php calculator",
-  "main": "index.html",
+  "main": "index.php",
   "scripts": {
     "install": "npm install lite-server --save-dev",
     "start": "npm run lite",
