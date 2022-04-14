@@ -33,26 +33,42 @@
         </form>
     </main>
     <?php
+        // error_reporting(0);
         $res = '';
         if (!empty($_POST["calc"])) {
             $elems = explode(' ', $_POST["calc"]);
 
-            $keyBracketsOpen = [];
-
-            while (array_search('(', $elems) != false and array_search(')', $elems) != false) {
-                for ($i = 0; $i < count($elems); $i++) {
-                    if ($elems[$i] == '(') {
-                        array_push($keyBracketsOpen, $i);
-                    } elseif ($elems[$i] == ')') {
-                        $first = array_pop($keyBracketsOpen);
-                        $second = $i;
-                        $replacement = calc(array_slice($elems, $first + 1, $second - $first - 1));
-                        array_splice($elems, $first, $second - $first + 1, $replacement);
-                    }
-                }
-                
+            $brackets = 0;
+            for ($i = 0; $i < count($elems); $i++) {
+                if ($elems[$i] == '(') $brackets++;
+                if ($elems[$i] == ')') $brackets--;
+                if ($brackets != 0 && $i == count($elems) - 1) {
+                    $res = 'Проверь скобки';
+                    
+                };
             }
-            $res = calc(array_values(array_diff($elems, array(''))))[0];
+            $keyBracketsOpen = [];
+            try {
+                while (array_search('(', $elems) != false and array_search(')', $elems) != false) {
+                    for ($i = 0; $i < count($elems); $i++) {
+                        if ($elems[$i] == '(') {
+                            array_push($keyBracketsOpen, $i);
+                        } elseif ($elems[$i] == ')') {
+                            $first = array_pop($keyBracketsOpen);
+                            $second = $i;
+                            $replacement = calc(array_slice($elems, $first + 1, $second - $first - 1));
+                            array_splice($elems, $first, $second - $first + 1, $replacement);
+                        }
+                    }
+                    
+                }
+                if ($res == '') {
+                    $res = calc(array_values(array_diff($elems, array(''))))[0];
+                }
+
+            } catch (DivisionByZeroError $e) {
+                $res = 'Деление на 0';
+            }
 
         }
 

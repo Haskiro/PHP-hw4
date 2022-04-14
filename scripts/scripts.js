@@ -4,12 +4,22 @@ const input = document.querySelector(".calc__input");
 
 input.value = res;
 
-for (let i = 0; i < btns.length - 2; i++) {
+for (let i = 0; i < btns.length - 7; i++) {
     btns[i].addEventListener("click", function() {
         if ('+-/*()'.includes(btnValues[i]) || '+-/*()'.includes(input.value[input.value.length - 1])) {
             input.value += ' ' + btnValues[i];
         } else {
             input.value += btnValues[i];
+        }
+    })
+}
+
+for (let i = btns.length - 7; i < btns.length - 3; i++) {
+    btns[i].addEventListener("click", function() {
+        if ('+-/*'.includes(input.value[input.value.length - 1]) || input.value.length == 0) {
+            input.value += '';
+        } else {
+            input.value += ' ' + btnValues[i];
         }
     })
 }
