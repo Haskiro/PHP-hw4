@@ -30,13 +30,22 @@
             <input type="button" class="calc__button calc__button_reset" value="c">
             <input type="button" class="calc__button calc__button_delete" value="←">
             <input type="submit" class="calc__button calc__button_result" value="=">
+            <input type="button" class="calc__button calc__button_trig" value="trig">
         </form>
     </main>
     <?php
         // error_reporting(0);
         $res = '';
+        $val = file_get_contents('task/expression.txt');
+
         if (!empty($_POST["calc"])) {
             $elems = explode(' ', $_POST["calc"]);
+
+            for ($i = 0; $i < count($elems); $i++) {
+                if (isTrig($elems[$i]) == true ) {
+                    $elems[$i] = calcTrig(getTrig($elems[$i])[0], getTrig($elems[$i])[1]);
+                }
+            }
 
             $brackets = 0;
             for ($i = 0; $i < count($elems); $i++) {
@@ -113,9 +122,32 @@
         
             return $arr;
         }
+
+        function isTrig($str) {
+            foreach (['sin', 'cos', 'tan'] as $trigFunc) {
+                if(str_contains($str, $trigFunc)) {
+                    return true;
+                };
+            }
+        }
+
+        function getTrig($str) {
+            $bracketOpen = strpos($str, '(');
+            $bracketClose = strpos($str, ')');
+            $num = substr($str, $bracketOpen + 1, $bracketClose - $bracketOpen - 1);
+            $trigFunc = substr($str, 0, $bracketOpen);
+            $res = [$trigFunc, $num];
+            
+            return $res;
+        }
+
+        function calcTrig($trigFunc, $num) {
+            return $trigFunc((int)$num/180*pi());
+        }
     ?>
     <script>
-        var res = '<?= $res ?>';
+        let val = '<?= $val ?>';
+        let res = '<?= $res ?>';
     </script>
     <script src="scripts/scripts.js"></script>
 </body>
